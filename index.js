@@ -26,18 +26,51 @@ function startQs() {
       type: 'list',
       name: 'todo',
       message: "What would you like to do?",
-      choices: ['View Departments', 'View Roles', 'End']
+      choices: [
+        'View Departments',
+        'View Roles',
+        'View Employees',
+        'Add Department',
+        'Add Role',
+        'Add Employee',
+        'Update Employee Information',
+        'End'
+      ]
     }])
     .then((response) => {
-      console.log(response.spaghetti)
+      // console.log(response.todo)
       if (response.todo === 'View Departments') {
         //write a function and call it here(for now we are writing it below)
-        db.query('SELECT * FROM department', function (err, results) {
-          console.table(results);
-        })
-        //call wrapped inquirer function to provide prompts again.
+        viewDpt();
+        startQs();
       }
+      //call wrapped inquirer function to provide prompts again.
+      else if (response.todo === 'View Roles') {
+        viewRoles();
+        startQs();
+      } else if (response.todo === 'View Roles') {
+        viewEmployees();
+        startQs();
+      } else {
+        exit();
+      }
+    });
 
+  //create db.query and call the function after the if/if-else statements
+  function viewDpt() {
+    db.query('SELECT * FROM department', function (err, results) {
+      console.table(results)
     })
-}
-//create db.query and call the function after the if/if-else statements
+  };
+
+  function viewRoles() {
+    db.query('Select * FROM roles', function (err, results) {
+      console.table(results)
+    })
+  };
+
+  function exit() {
+    console.log("Good Bye");
+  };}
+
+  // "SELECT employee.first_name, employee.last_name, role.title, role.salary, department.name, CONCAT(e.first_name, ' ' ,e.last_name) AS Manager FROM employee INNER JOIN role ON role.id = employee.role_id INNER JOIN department AS Department ON department.id = role.department_id LEFT JOIN employee e ON employee.manager_id = e.id;"
