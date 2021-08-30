@@ -1,6 +1,7 @@
 const inquirer = require('inquirer');
 const cTable = require('console.table');
 const mysql2 = require('mysql2');
+const Connection = require('mysql2/typings/mysql/lib/Connection');
 require('dotenv').config()
 
 const db = mysql2.createConnection({
@@ -115,33 +116,45 @@ const addDpt = async() => {
    ])
    .then((response) => {
      console.log(response);
-     db.query('INSERT INTO department ?',
-     response.dptName)
-     .then(()=>{
-       console.log("added Dpt")
-     });
+     db.query('INSERT INTO department SET ?',
+    {
+      name: response.dptName,
+    },
+    function(err, results){
+      if (err) throw err;
+      console.log("New department added");
+      startQs();
     });
-}
+  });
+};
 
 
 const addRoles = async() => {
-  await inquirer
-    .prompt([
-     { name:'dptName',
-       type: 'input',
-       message: 'What is the new departments name?'
-    },
-    ])
-    .then(function (response){
-      db.query('INSERT INTO department (department_name) VALUES(?)',
-      function(err, results){
-        if (err) throw err;
-        console.log("New department added");
-        startQs();
-      });
- })
- };
-
+  inquirer
+  .prompt([
+   { name:'newRole',
+     type: 'input',
+     message: 'What is the new role?'
+  },
+  {
+    name:'newSalary',
+    type: 'input',
+    message: 'What is the salary for the new role?'
+  }
+  ])
+  .then((response) => {
+    console.log(response);
+    db.query('INSERT INTO role SET ?',
+   {
+     name: response.dptName,
+   },
+   function(err, results){
+     if (err) throw err;
+     console.log("New department added");
+     startQs();
+   });
+ });
+};
  const addEmployee = async() => {
    inquirer
     .prompt([
