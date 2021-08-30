@@ -79,7 +79,7 @@ const startQs = () => {
 //create db.query and call the function after the if/if-else statements
 const viewDpt = async() => {
   db.query('SELECT * FROM department', function (err, results) {
-    if (err) throw err
+    if (err) throw err;
     console.table('Departments', results);
     startQs();
   })
@@ -88,7 +88,7 @@ const viewDpt = async() => {
 const viewRoles = async() => {
   db.query('SELECT roles.id, roles.title, roles.salary,  department.name AS Department FROM roles INNER JOIN department ON roles.department_id = department.id',
     function (err, results) {
-    if (err) throw err
+    if (err) throw err;
     console.table('Roles', results);
     startQs();
 
@@ -98,12 +98,85 @@ const viewRoles = async() => {
 const viewEmployees = async() => {
   db.query(`SELECT employee.id, employee.first_name, employee.last_name, department.name, roles.title, roles.salary, CONCAT(e.first_name, ' ' ,e.last_name) AS Manager FROM employee INNER JOIN roles on roles.id = employee.role_id INNER JOIN department on department.id = roles.department_id left join employee e on employee.manager_id = e.id;`, 
   function (err, results) {
-    if (err) throw err
+    if (err) throw err;
     console.table('Employees', results);
     startQs();
 
   })
 };
+
+const addDpt = async() => {
+ await inquirer
+   .prompt([
+    { name:'dptName',
+      type: 'input',
+      message: 'What is the new departments name?'
+   },
+   ])
+   .then(function (response){
+     db.query('INSERT INTO department (department_name) VALUES(?)',
+     function(err, results){
+       if (err) throw err;
+       console.log("New department added");
+       startQs();
+     });
+})
+};
+
+const addRoles = async() => {
+  await inquirer
+    .prompt([
+     { name:'dptName',
+       type: 'input',
+       message: 'What is the new departments name?'
+    },
+    ])
+    .then(function (response){
+      db.query('INSERT INTO department (department_name) VALUES(?)',
+      function(err, results){
+        if (err) throw err;
+        console.log("New department added");
+        startQs();
+      });
+ })
+ };
+
+ const addEmployee = async() => {
+  await inquirer
+    .prompt([
+     { name:'dptName',
+       type: 'input',
+       message: 'What is the new departments name?'
+    },
+    ])
+    .then(function (response){
+      db.query('INSERT INTO department (department_name) VALUES(?)',
+      function(err, results){
+        if (err) throw err;
+        console.log("New department added");
+        startQs();
+      });
+ })
+ };
+
+ const update = () => {
+   inquirer
+    .prompt([
+     { name:'dptName',
+       type: 'input',
+       message: 'What is the new departments name?'
+    },
+    ])
+    .then(function (response){
+      db.query('INSERT INTO department set ?',
+      response.addDpt,
+      function(err, results){
+        if (err) throw err;
+        console.log("New department added");
+        startQs();
+      });
+ })
+ };
 
 const exit = () => {
   console.log("Good Bye");
