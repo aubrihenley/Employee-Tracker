@@ -54,11 +54,11 @@ const startQs = () => {
           viewEmployees();
           break;
 
-        case 'Add Departments':
+        case 'Add Department':
           addDpt();
           break;
 
-        case 'Add Roles':
+        case 'Add Role':
           addRoles();
           break;
 
@@ -106,22 +106,23 @@ const viewEmployees = async() => {
 };
 
 const addDpt = async() => {
- await inquirer
+  inquirer
    .prompt([
     { name:'dptName',
       type: 'input',
       message: 'What is the new departments name?'
    },
    ])
-   .then(function (response){
-     db.query('INSERT INTO department (department_name) VALUES(?)',
-     function(err, results){
-       if (err) throw err;
-       console.log("New department added");
-       startQs();
+   .then((response) => {
+     console.log(response);
+     db.query('INSERT INTO department ?',
+     response.dptName)
+     .then(()=>{
+       console.log("added Dpt")
      });
-})
-};
+    });
+}
+
 
 const addRoles = async() => {
   await inquirer
@@ -142,7 +143,7 @@ const addRoles = async() => {
  };
 
  const addEmployee = async() => {
-  await inquirer
+   inquirer
     .prompt([
      { name:'dptName',
        type: 'input',
