@@ -20,7 +20,7 @@ db.connect(function (err) {
 
 
 //wrap inquirer in its own function to keep running the prompts as needed within the prompts.
-function startQs() {
+const startQs = () => {
   inquirer
     .prompt([{
       type: 'list',
@@ -47,58 +47,61 @@ function startQs() {
           break;
 
         case 'View Roles':
-          //write a function and call it here(for now we are writing it below)
           viewRoles();
           break;
 
         case 'View Employees':
-          //write a function and call it here(for now we are writing it below)
           viewEmployees();
           break;
 
         case 'Add Departments':
-          //write a function and call it here(for now we are writing it below)
           addDpt();
           break;
 
         case 'Add Roles':
-          //write a function and call it here(for now we are writing it below)
           addRoles();
           break;
 
         case 'Add Employee':
-          //write a function and call it here(for now we are writing it below)
           addEmployee();
           break;
 
         case 'Update Employee Information':
-          //write a function and call it here(for now we are writing it below)
           update();
           break;
 
         case 'Exit':
-          //write a function and call it here(for now we are writing it below)
           exit();
       }
     });
 }
 
 //create db.query and call the function after the if/if-else statements
-function viewDpt() {
+const viewDpt = async() => {
   db.query('SELECT * FROM department', function (err, results) {
-    console.table(results)
+    console.table('Departments', results);
+    startQs();
   })
-  startQs();
 };
 
-function viewRoles() {
-  db.query('Select * FROM roles', function (err, results) {
-    console.table(results)
+const viewRoles = async() => {
+  db.query("SELECT roles.id, roles.title, roles.salary,  department.name AS Department FROM roles INNER JOIN department ON roles.department_id = department.id",
+    function (err, results) {
+    console.table('Roles', results);
+    startQs();
+
   })
-  startQs();
 };
 
-function exit() {
+const viewEmployees = async() => {
+  db.query('SELECT * FROM employee', function (err, results) {
+    console.table('Employees', results);
+    startQs();
+
+  })
+};
+
+const exit = () => {
   console.log("Good Bye");
 };
 
