@@ -79,14 +79,16 @@ const startQs = () => {
 //create db.query and call the function after the if/if-else statements
 const viewDpt = async() => {
   db.query('SELECT * FROM department', function (err, results) {
+    if (err) throw err
     console.table('Departments', results);
     startQs();
   })
 };
 
 const viewRoles = async() => {
-  db.query("SELECT roles.id, roles.title, roles.salary,  department.name AS Department FROM roles INNER JOIN department ON roles.department_id = department.id",
+  db.query('SELECT roles.id, roles.title, roles.salary,  department.name AS Department FROM roles INNER JOIN department ON roles.department_id = department.id',
     function (err, results) {
+    if (err) throw err
     console.table('Roles', results);
     startQs();
 
@@ -94,7 +96,9 @@ const viewRoles = async() => {
 };
 
 const viewEmployees = async() => {
-  db.query('SELECT * FROM employee', function (err, results) {
+  db.query(`SELECT employee.id, employee.first_name, employee.last_name, department.name, roles.title, roles.salary, CONCAT(e.first_name, ' ' ,e.last_name) AS Manager FROM employee INNER JOIN roles on roles.id = employee.role_id INNER JOIN department on department.id = roles.department_id left join employee e on employee.manager_id = e.id;`, 
+  function (err, results) {
+    if (err) throw err
     console.table('Employees', results);
     startQs();
 
