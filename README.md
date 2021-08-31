@@ -20,7 +20,7 @@ Install Node.js, followed by 'npm init' on the command line. Then enter 'npm i' 
 ![Screenshot of App](https://github.com/aubrihenley/Employee-Tracker.png)
 
 
-[Application Video](https://drive.google.com/file/d/1VWBRYg7UCzn1bvTgT9sCtXfxGQ4q3lND/view)  
+[Application Video](https://drive.google.com/file/d/12CwW8c576j1ErSD1_fPEc8avfcJJi-dl/view)  
 [Link to GitHub Repository](https://github.com/aubrihenley/Employee-Tracker)
  
 ## Credits
