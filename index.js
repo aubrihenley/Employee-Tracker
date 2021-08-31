@@ -166,18 +166,20 @@ const addRoles = async () => {
 };
 
 const addEmployee = async () => {
-  let roleArray =[];
-  db.query('SELECT * FROM roles;', (err, results)=> {
+  let roleArray = [];
+  db.query('SELECT * FROM roles;', (err, results) => {
     if (err) throw err;
-    results.map((roles)=> roleArray.push(`${roles.title}`));
+    results.map(roles => roleArray.push(`${roles.title}`));
+    return roleArray;
   });
 
   let managerArray = [];
-  db.query('SELECT first_name, last_name FROM employee WHERE manager_id IS NULL', (err, results) =>{
+  db.query('SELECT first_name, last_name FROM employee WHERE manager_id IS NULL', (err, results) => {
     if (err) throw err;
-    results.map(manager =>{managerArray.push(`${manager.first_name} ${manager.last_name}`)});
-  }
-  )
+    results.map(manager =>
+      managerArray.push(`${manager.first_name} ${manager.last_name}`));
+    return managerArray;
+  });
   inquirer
     .prompt([{
         name: 'firstName',
@@ -205,14 +207,14 @@ const addEmployee = async () => {
     ])
     .then((response) => {
       const roleID = roleArray.indexOf(response.employeeRole) + 1;
-      const managerID= managerArray.indexOf(response.employeeMngr) +1;
-    
-      db.query('INSERT INTO employee SET ?',{
-        first_name: response.firstName,
-        last_name: response.lastName,
-        role_id: roleID,
-        manager_id: managerID,
-      },
+      const managerID = managerArray.indexOf(response.employeeMngr) + 1;
+
+      db.query('INSERT INTO employee SET ?', {
+          first_name: response.firstName,
+          last_name: response.lastName,
+          role_id: roleID,
+          manager_id: managerID,
+        },
         function (err, results) {
           if (err) throw err;
           console.log("New employee added");
@@ -222,6 +224,9 @@ const addEmployee = async () => {
 };
 
 const update = () => {
+  let employeeArray = [];
+  let roleArray = [];
+  
   inquirer
     .prompt([{
       name: 'dptName',
@@ -240,7 +245,6 @@ const update = () => {
 };
 
 const exit = () => {
+  db.end();
   console.log("Good Bye");
 };
-
-// "SELECT employee.first_name, employee.last_name, role.title, role.salary, department.name, CONCAT(e.first_name, ' ' ,e.last_name) AS Manager FROM employee INNER JOIN role ON role.id = employee.role_id INNER JOIN department AS Department ON department.id = role.department_id LEFT JOIN employee e ON employee.manager_id = e.id;"
