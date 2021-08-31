@@ -16,8 +16,8 @@ Install Node.js, followed by 'npm init' on the command line. Then enter 'npm i' 
 
 ## Usage
 
-![Screenshot of App](https://github.com/aubrihenley/Employee-Tracker.png)
-![Screenshot of App](https://github.com/aubrihenley/Employee-Tracker.png)
+![Screenshot of App](https://github.com/aubrihenley/Employee-Tracker/blob/main/assets/screenshot1.png)
+![Screenshot of App](https://github.com/aubrihenley/Employee-Tracker/blob/main/assets/screenshot2.png)
 
 
 [Application Video](https://drive.google.com/file/d/12CwW8c576j1ErSD1_fPEc8avfcJJi-dl/view)  
