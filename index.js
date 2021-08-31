@@ -223,22 +223,45 @@ const addEmployee = async () => {
     });
 };
 
-const update = () => {
+const update = async ()  => {
   let employeeArray = [];
+  db.query('SELECT first_name, last_name FROM employee;', (err, results) => {
+    if (err) throw err;
+    results.map(person => employeeArray.push(`${person.first_name} ${person.last_name}`));
+    return employeeArray;
+  });
+
   let roleArray = [];
-  
+  db.query('SELECT * FROM roles;', (err, results) => {
+    if (err) throw err;
+    results.map(roles => roleArray.push(`${roles.title}`));
+    return roleArray;
+  });
+
   inquirer
-    .prompt([{
-      name: 'dptName',
-      type: 'input',
-      message: 'What is the new departments name?'
-    }, ])
-    .then(function (response) {
-      db.query('INSERT INTO department set ?',
-        response.addDpt,
-        function (err, results) {
+    .prompt([
+    {
+      name: 'employee',
+      type: 'list',
+      message: 'Please select the employee you wish to update.',
+      choices: employeeArray,
+    },
+    {
+      name: 'employeeRole',
+      type: 'list',
+      message: "Please select the employee's new role.",
+      choices: roleArray,
+    }, 
+  ])
+      .then((response) => {
+        console.log(employeeArray);
+
+      const roleID = roleArray.indexOf(response.employeeRole) + 1;
+      const employeeID = employeeArray.indexOf(response.employee) + 1;
+    
+      db.query(`UPDATE employee set role_id= ${roleID} WHERE id= ${employeeID}`, (err, results) => {
           if (err) throw err;
-          console.log("New department added");
+          console.log(" Employee role Updated");
           startQs();
         });
     })
