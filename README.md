@@ -21,8 +21,7 @@ Install Node.js, followed by 'npm init' on the command line. Then enter 'npm i' 
 
 
 [Application Video](https://drive.google.com/file/d/1VWBRYg7UCzn1bvTgT9sCtXfxGQ4q3lND/view)  
-[Link to Deployed App](https://young-savannah-53005.herokuapp.com/)  
-[Link to GitHub Repository](https://github.com/aubrihenley/Note-Taker)
+[Link to GitHub Repository](https://github.com/aubrihenley/Employee-Tracker)
  
 ## Credits
 Partial code provided by UNC Chapel Hill Full Stack Web Development course. Refactoring done by Aubri Henley.
